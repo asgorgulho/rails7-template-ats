@@ -67,5 +67,10 @@ group :development do
   # gem "spring"
 end
 
-
 gem "stimulus_reflex", "= 3.5.0.pre8"
+
+# For authentication
+gem 'devise'
+
+# For inline svg - https://heroicons.com/
+gem 'inline_svg'
