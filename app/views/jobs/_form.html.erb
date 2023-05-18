@@ -34,9 +34,7 @@
 
   <div class="form-group">
     <%= form.label :location %>
-    <div class="mt-1">
-      <%= form.text_field :location %>
-    </div>
+    <%= form.select :location, options_for_select(ISO3166::Country.countries.map { |c| [c.iso_short_name, c.alpha2] }, job.location), {}, { class: "mt-1" }  %>
   </div>
 
   <%= form.submit 'Submit', class: 'btn-primary float-right' %>

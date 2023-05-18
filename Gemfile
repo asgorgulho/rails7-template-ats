@@ -74,3 +74,6 @@ gem 'devise'
 
 # For inline svg - https://heroicons.com/
 gem 'inline_svg'
+
+# Country list
+gem 'countries'
