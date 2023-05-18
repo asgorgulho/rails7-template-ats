@@ -7,6 +7,11 @@
       remote: true
     } %>
 </div>
+
+<p id="no-jobs" class="mt-1 text-base leading-6 text-gray-600 <%= @jobs.none? ? nil : 'hidden' %>">
+  You have no jobs yet!
+</p>
+
 <div class="shadow overflow-hidden sm:rounded-md">
   <div class="divide-y divide-gray-200" id="jobs">
     <%= render @jobs %>

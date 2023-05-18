@@ -36,6 +36,7 @@ class JobsController < ApplicationController
       html = render_to_string(partial: 'job', locals: { job: @job })
       render operations: cable_car
         .prepend('#jobs', html: html)
+        .add_css_class(selector: '#no-jobs', name: 'hidden')
         .dispatch_event(name: 'submit:success')
     else
       html = render_to_string(partial: 'form', locals: { job: @job })
@@ -61,9 +62,11 @@ class JobsController < ApplicationController
   # DELETE /jobs/1 or /jobs/1.json
   def destroy
     if @job.destroy
-      render operations: cable_car
-        .remove(selector: dom_id(@job))
-        .dispatch_event(name: 'submit:success')
+      operations = cable_car.remove(selector: dom_id(@job))
+                            .dispatch_event(name: 'submit:success')
+      operations = operations.remove_css_class(selector: '#no-jobs', name: 'hidden') if Job.none?
+
+      render operations: operations
     else
       render operations: cable_car
         .dispatch_event(name: 'submit:error')
