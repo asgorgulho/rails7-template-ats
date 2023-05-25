@@ -1,0 +1,58 @@
+<%= form_with(model: applicant, html: { class: "space-y-6" }, data: { remote: true }, id: 'applicant-form') do |form| %>
+  <% if applicant.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(applicant.errors.count, "error") %> prohibited this applicant from being saved:</h2>
+
+      <ul>
+        <% applicant.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :first_name %>
+    <div class="mt-1">
+      <%= form.text_field :first_name %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :last_name %>
+    <div class="mt-1">
+      <%= form.text_field :last_name %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :email %>
+    <div class="mt-1">
+      <%= form.text_field :email %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :phone %>
+    <div class="mt-1">
+      <%= form.text_field :phone %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :stage %>
+    <%= form.select :stage, options_for_select(Applicant.stages.map{ |key, _value| [key.humanize, key]}, applicant.stage), {}, { class: "mt-1" } %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :job_id %>
+    <%= form.select :job_id, options_for_select(Job.where(account_id: current_user.account_id).order(:title).pluck(:title, :id)), {}, { class: "mt-1" } %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :resume %>
+    <%= form.file_field :resume, accept: "application/pdf", direct_upload: true %>
+  </div>
+
+  <%= form.submit 'Submit', class: 'btn-primary float-right' %>
+<% end %>

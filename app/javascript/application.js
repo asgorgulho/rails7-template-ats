@@ -13,3 +13,6 @@ mrujs.start({
 })
 import "trix"
 import "@rails/actiontext"
+import * as ActiveStorage from "@rails/activestorage"
+
+ActiveStorage.start()
