@@ -1,10 +1,14 @@
 class JobsController < ApplicationController
+  include Filterable
+
   before_action :authenticate_user!
   before_action :set_job, only: %i[ show edit update destroy ]
+  before_action :turbo_frame_request_variant
 
   # GET /jobs or /jobs.json
   def index
-    @jobs = Job.all
+    @jobs = filter!(Job)
+            .for_account(current_user.account_id)
   end
 
   # GET /jobs/1 or /jobs/1.json
@@ -82,5 +86,9 @@ class JobsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def job_params
       params.require(:job).permit(:title, :status, :job_type, :location, :account_id, :description)
+    end
+
+    def turbo_frame_request_variant
+      request.variant = :turbo_frame if turbo_frame_request?
     end
 end
